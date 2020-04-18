@@ -4,21 +4,23 @@ using System;
 public class Main : Node2D
 {
     private IslandGenerator _islandGenerator = new IslandGenerator();
-
+    private IslandSpawner _islandSpawner;
     public override void _Ready()
     {
-        var rand = new Random();
-        for (int i = 0; i < 20; i++)
-        {
-            var node = _islandGenerator.Generate();
-            node.Position = new Vector2(rand.Next(0, 300), rand.Next(0, 200));
-            AddChild(node);
-        }
-        
+        _islandSpawner = new IslandSpawner();
+        AddChild(_islandSpawner);
+        _islandSpawner.Connect("SpawnIsland", this, nameof(OnIslandSpawned));
     }
 
     public override void _Process(float delta)
     {
         
+    }
+
+    private void OnIslandSpawned(Vector2 pos)
+    {
+        var newIsland = _islandGenerator.Generate();
+        newIsland.Position = pos;
+        AddChild(newIsland);
     }
 }
