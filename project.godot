@@ -16,6 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Iceberg"
+run/main_scene="res://Scene/Main.tscn"
 config/icon="res://icon.png"
 
 [rendering]
