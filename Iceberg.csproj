@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Camera2D.cs" />
     <Compile Include="Scripts\CameraRigidBody.cs" />
+    <Compile Include="Scripts\Island.cs" />
     <Compile Include="Scripts\Main.cs" />
     <Compile Include="Scripts\IslandGenerator.cs" />
     <Compile Include="Scripts\IslandSpawner.cs" />

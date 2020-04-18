@@ -17,20 +17,11 @@ public class IslandGenerator
 
     private Node2D GetIslandBase()
     {
-        var rigidBody = new RigidBody2D();
-        var collisionPolygon = new CollisionPolygon2D();
-        var polygon = new Polygon2D();
-        var islandPolygon = GetIslandPolygon(10, 100);
+        var island = new Island();
         
-        collisionPolygon.Polygon = islandPolygon;
+        island.SetPolygon(GetIslandPolygon(10, 100));
         
-        polygon.Polygon = islandPolygon;
-        polygon.Color = Color.Color8(255, 255, 255);
-
-        rigidBody.AddChild(collisionPolygon);
-        rigidBody.AddChild(polygon);
-        rigidBody.GravityScale = 0;
-        return (Node2D)rigidBody;
+        return (Node2D)island;
     }
 
     private Vector2[] GetIslandPolygon(int n, int size)
