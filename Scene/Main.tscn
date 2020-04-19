@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Main.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Camera2D.cs" type="Script" id=2]
@@ -8,11 +8,21 @@
 [ext_resource path="res://Sounds/LudumDare46SelectSound2.wav" type="AudioStream" id=6]
 [ext_resource path="res://Sounds/LudumDare46SelectSound3.wav" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/LudumDare46SelectSound4.wav" type="AudioStream" id=8]
+[ext_resource path="res://Roboto-Thin.ttf" type="DynamicFontData" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 
+[sub_resource type="DynamicFont" id=2]
+size = 30
+font_data = ExtResource( 9 )
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( -0.76123, -0.330292 )
+color = Color( 0.0156863, 0.0941176, 0.164706, 1 )
+polygon = PoolVector2Array( -100000, -100000, 100000, -100000, 100000, 100000, -100000, 100000 )
 
 [node name="CameraRigidBody" type="RigidBody2D" parent="."]
 collision_layer = 0
@@ -46,6 +56,39 @@ volume_db = -10.0
 stream = ExtResource( 8 )
 volume_db = -10.0
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color( 0.0156863, 0.0941176, 0.164706, 1 )
-polygon = PoolVector2Array( -100000, -100000, 100000, -100000, 100000, 100000, -100000, 100000 )
+[node name="CanvasLayer" type="CanvasLayer" parent="CameraRigidBody"]
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CameraRigidBody/CanvasLayer"]
+margin_left = 389.841
+margin_top = 379.368
+margin_right = 612.841
+margin_bottom = 496.368
+custom_fonts/normal_font = SubResource( 2 )
+text = "  Click To Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CameraRigidBody/CanvasLayer"]
+margin_left = 392.853
+margin_top = 282.127
+margin_right = 615.853
+margin_bottom = 399.127
+custom_fonts/normal_font = SubResource( 2 )
+text = "         
+		The End
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="CameraRigidBody/CanvasLayer"]
+margin_left = 489.029
+margin_top = 971.664
+margin_right = 712.029
+margin_bottom = 1088.66
+custom_fonts/normal_font = SubResource( 2 )
+text = "29"
+__meta__ = {
+"_edit_use_anchors_": false
+}

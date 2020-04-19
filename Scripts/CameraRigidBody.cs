@@ -17,7 +17,8 @@ public class CameraRigidBody : RigidBody2D
 
     public override void _Process(float delta)
     {
-        InputProcess();   
+        if (!Freeze)
+            InputProcess();   
     }
 
     private void InputProcess()
@@ -38,4 +39,7 @@ public class CameraRigidBody : RigidBody2D
             EmitSignal(nameof(Moved));
         }
     }
+
+    public bool Freeze = false;
+    
 }

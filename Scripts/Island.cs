@@ -22,8 +22,8 @@ public class Island : RigidBody2D
         Bounce = 0.05f;
         AngularDamp = 0.5f;
 
-        RemainingTime = (float)new Random().Next(5, 11);
-        RemainingTime = RemainingTime > 11 ? 8f : RemainingTime;
+        RemainingTime = (float)new Random().Next(6, 15);
+        RemainingTime = RemainingTime > MaxRemainingTime ? MaxRemainingTime : RemainingTime;
         _collisionPolygon = new CollisionPolygon2D();
         _polygon = new Polygon2D();
 
@@ -87,13 +87,45 @@ public class Island : RigidBody2D
     {
         if (_bear != null || StartedToSink)
         {
-            RemainingTime -= delta;
             StartedToSink = true;
-            _polygon.Color = _gradient.Interpolate(RemainingTime / MaxRemainingTime);
+            RemainingTime -= delta * 1;
             if (RemainingTime < 0 && _bear == null)
                 QueueFree();
+            else if (RemainingTime < 0 && _bear.IsJumping == false)
+            {
+                GD.Print("sunk");
+                EmitSignal(nameof(SunkWithBear));
+                
+                var childs = GetChildren();
+                for (int i = 0; i < childs.Count; i++)
+                {
+                    if (childs[i] == _bear)
+                    {
+                        RemoveChild(_bear);
+                    }
+                }
+                QueueFree();
+            }
         }
+        else
+        {
+            RemainingTime -= delta * _forceSinkFactor;
+            if (RemainingTime < 0)
+                QueueFree();
+
+        }
+        _polygon.Color = _gradient.Interpolate(RemainingTime / MaxRemainingTime);
     }
+
+    private float _forceSinkFactor = 0.02f;
+    public void ForceSink()
+    {
+        StartedToSink = true;
+        _forceSinkFactor = 13f;
+    }
+
+    [Signal]
+    public delegate void SunkWithBear();
 
     private bool _isSelected = false;
     private void MouseInputProcess()
