@@ -12,7 +12,7 @@ public class Island : RigidBody2D
     private Vector2 _centroid;
     private Arrow _arrow;
     private Bear _bear = null;
-    public bool _alreadyUsed = false;
+    public bool AlreadyUsed = false;
     
     public Island()
     {
@@ -20,9 +20,10 @@ public class Island : RigidBody2D
         LinearDamp = 0.9f;
         AngularDamp = 1.2f;
         Bounce = 0.05f;
+        AngularDamp = 0.5f;
 
         RemainingTime = (float)new Random().Next(9, 16);
-        RemainingTime = RemainingTime > 12f ? 12f : RemainingTime;
+        RemainingTime = RemainingTime > 10f ? 10f : RemainingTime;
         _collisionPolygon = new CollisionPolygon2D();
         _polygon = new Polygon2D();
 
@@ -31,17 +32,28 @@ public class Island : RigidBody2D
         var packedArrow = (PackedScene)ResourceLoader.Load("res://Scene/ArrowSprite.tscn");
         _arrow = (Arrow)packedArrow.Instance();
     }
+    
+    public void BearLeave(Bear bear)
+    {
+        if (_bear == bear)
+        {
+            RemoveChild(bear);
+            _bear = null;
+        }
+    }
 
     public void SetAsFirst()
     {
         var packedBear = (PackedScene)ResourceLoader.Load("res://Scene/Bear.tscn");
         _bear = (Bear)packedBear.Instance();
+        _bear.ActualIsland = this;
         AddChild(_bear);
     }
 
     public void TakeBear(Bear bear)
     {
         _bear = bear;
+        _bear.ActualIsland = this;
         AddChild(_bear);
     }
 
@@ -61,7 +73,6 @@ public class Island : RigidBody2D
 
     public override void _Process(float delta)
     {
-        //Update();
         SinkProcess(delta);
         MouseInputProcess();
         SlingshootDisplay();
@@ -69,7 +80,7 @@ public class Island : RigidBody2D
         GiveBear();
     }
 
-    public const float MaxRemainingTime = 12;
+    public const float MaxRemainingTime = 10;
     public float RemainingTime;
     public bool StartedToSink = false;
     private void SinkProcess(float delta)
@@ -79,13 +90,15 @@ public class Island : RigidBody2D
             RemainingTime -= delta;
             StartedToSink = true;
             _polygon.Color = _gradient.Interpolate(RemainingTime / MaxRemainingTime);
+            if (RemainingTime < 0 && _bear == null)
+                QueueFree();
         }
     }
 
     private bool _isSelected = false;
     private void MouseInputProcess()
     {
-        if (Input.IsActionJustPressed("mouse_click_left") && !_isSelected && _bear == null)
+        if (Input.IsActionJustPressed("mouse_click_left") && !_isSelected && _bear == null && !AlreadyUsed)
         {
             var mousePos = GetGlobalMousePosition();
             if (Math.Abs(Position.x - mousePos.x) > 100 || Math.Abs(Position.y - mousePos.y) > 100)
@@ -129,7 +142,7 @@ public class Island : RigidBody2D
 
     private void ScanOtherIsland(float delta)
     {
-        if (_bear == null)
+        if (_bear == null || _bear.IsJumping)
             return;
 
         var spaceState = GetWorld2d().DirectSpaceState;
@@ -151,25 +164,22 @@ public class Island : RigidBody2D
                     var dist = Mathf.Sqrt(Mathf.Pow(contactPos.x - cornerPos.x, 2) + Mathf.Pow(contactPos.y - cornerPos.y, 2));
                     if (dist < 20)
                     {
-                        GD.Print("under 10");
-                        var island = _closeIsland.SingleOrDefault(i => i.Island == result["collider"] && ((Island)result["collider"])._alreadyUsed == false);
+                        var island = _closeIsland.SingleOrDefault(i => i.Island == result["collider"] && ((Island)result["collider"]).AlreadyUsed == false);
                         
                         if (island == null)
                         {
-                            GD.Print("adder to closeIslands");
                             _closeIsland.Add(new IslandTimeClose() {Time = 0, Island = (Island)result["collider"], Updated = true});
                         }
                         else if (island.Updated == false)
                         {
                             island.Time += delta;
                             island.Updated = true;
-                            GD.Print("updated in closeIslands delta " + island.Time);
                         }
                     }
                 }
             }
         }
-        _closeIsland.RemoveAll(i => !i.Updated);
+        _closeIsland.RemoveAll(i => i.Updated == false || i.Island.AlreadyUsed);
     }
 
     private class IslandTimeClose
@@ -182,16 +192,18 @@ public class Island : RigidBody2D
 
     private void GiveBear()
     {
-        if (_bear == null)
+        if (_bear == null || _bear.IsJumping)
             return;
         var newIsland = _closeIsland.FirstOrDefault(i => i.Time > 2);
         if (newIsland != null)
         {
-            GD.Print("giveBear");
-            RemoveChild(_bear);
-            newIsland.Island.TakeBear(_bear);
-            _bear = null;
-            _alreadyUsed = true;
+            _bear.JumpTo(newIsland.Island);
+            AlreadyUsed = true;
+        }
+        else if (_closeIsland.Any(i => i.Updated && !i.Island.AlreadyUsed))
+        {
+            var island = _closeIsland.Where(i => i.Updated && !i.Island.AlreadyUsed).OrderBy(i => i.Time).Last();
+            _bear.LookAt(island.Island.Position);
         }
     }
 }
