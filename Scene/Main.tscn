@@ -83,10 +83,10 @@ __meta__ = {
 }
 
 [node name="RichTextLabel3" type="RichTextLabel" parent="CameraRigidBody/CanvasLayer"]
-margin_left = 489.029
-margin_top = 971.664
-margin_right = 712.029
-margin_bottom = 1088.66
+margin_left = 484.452
+margin_top = 747.558
+margin_right = 707.452
+margin_bottom = 864.558
 custom_fonts/normal_font = SubResource( 2 )
 text = "29"
 __meta__ = {
@@ -94,9 +94,9 @@ __meta__ = {
 }
 
 [node name="RichTextLabel4" type="RichTextLabel" parent="CameraRigidBody/CanvasLayer"]
-margin_left = 481.817
+margin_left = 486.958
 margin_top = 479.795
-margin_right = 704.817
+margin_right = 709.958
 margin_bottom = 596.795
 custom_fonts/normal_font = SubResource( 2 )
 text = "10"
