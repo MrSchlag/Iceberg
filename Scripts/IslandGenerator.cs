@@ -15,19 +15,19 @@ public class IslandGenerator
     {
     }
 
-    public Node2D Generate()
+    public Island Generate()
     {
         var node = GetIslandBase();
         return node;
     }
 
-    private Node2D GetIslandBase()
+    private Island GetIslandBase()
     {
         var island = new Island();
         
         island.SetPolygon(GetIslandPolygon(10, 100));
         
-        return (Node2D)island;
+        return island;
     }
 
     private IslandPolygon GetIslandPolygon(int n, int size)
@@ -74,11 +74,9 @@ public class IslandGenerator
         points.Select(i => new Vector2(i.x + xShift, i.y + yShift)).ToList();
         
         var centroid = GetCentroid(points);
-        points.ForEach(v => GD.Print(v));
 
         points = points.Select(i => new Vector2(i.x - centroid.x, i.y - centroid.y)).ToList();
 
-        points.ForEach(v => GD.Print(v));
         return new IslandPolygon {Polygon = points.ToArray(), Centroid = centroid};
     }
 

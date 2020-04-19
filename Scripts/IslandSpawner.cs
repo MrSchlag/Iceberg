@@ -26,7 +26,6 @@ public class IslandSpawner : Node2D
         _cameraRigidBody = new Lazy<RigidBody2D>(() =>
         {
             var v = GetNode<CameraRigidBody>("/root/Node2D/CameraRigidBody");
-            GD.Print("Connected");
             v.Connect("Moved", this, nameof(OnRigidBodyCameraMoved));
             return v;
         });
@@ -43,7 +42,7 @@ public class IslandSpawner : Node2D
 
     private void InitIslands()
     {
-        var threshold = 0.85f;
+        var threshold = 0.81f;
         var size = _camera.Value.GetViewport().Size;
         
         size.x *= _camera.Value.Zoom.x;
@@ -67,7 +66,7 @@ public class IslandSpawner : Node2D
 
     private void OnRigidBodyCameraMoved()
     {
-        var threshold = 0.83f;
+        var threshold = 0.79f;
         var size = _camera.Value.GetViewport().Size;
         
         size.x *= _camera.Value.Zoom.x;
