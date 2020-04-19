@@ -53,7 +53,7 @@ public class IslandGenerator
 
         var points = new List<Vector2>();
         for (int i = 0; i < n; i++)
-        {
+        {   
             points.Add(new Vector2(x, y));
             x += vec[i].x;
             y += vec[i].y;
@@ -65,11 +65,14 @@ public class IslandGenerator
         var xShift = minX - minPolyX;
         var yShift = minY - minPolyY;
         
-        points.ForEach(i => {
-            i.x += xShift;
-            i.y += yShift;
-        });
+        points.Select(i => new Vector2(i.x + xShift, i.y + yShift)).ToList();
+        
+        var centroid = GetCentroid(points);
+        points.ForEach(v => GD.Print(v));
 
+        points = points.Select(i => new Vector2(i.x - centroid.x, i.y - centroid.y)).ToList();
+
+        points.ForEach(v => GD.Print(v));
         return points.ToArray();
     }
 
@@ -96,5 +99,31 @@ public class IslandGenerator
 
         vec.Add(max - lastTop);
         vec.Add(lastBot - max);
+    }
+
+    private Vector2 GetCentroid(List<Vector2> points)
+    {
+        var voff = points[0];
+        float twiceArea = 0;
+        float x = 0;
+        float y = 0;
+
+        Vector2 p1, p2;
+        float f;
+
+        for (int i = 0, j = points.Count - 1; i < points.Count; j = i++)
+        {
+            p1 = points[i];
+            p2 = points[j];
+
+            f = (p1.x - voff.x) * (p2.y - voff.y) - (p2.x - voff.x) * (p1.y - voff.y);
+            twiceArea += f;
+            x += (p1.x + p2.x - 2 * voff.x) * f;
+            y += (p1.y + p2.y - 2 * voff.y) * f;
+        }
+
+        f = twiceArea * 3;
+
+        return new Vector2(x / f + voff.x, y / f + voff.y);
     }
 }

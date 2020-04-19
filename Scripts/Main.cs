@@ -7,6 +7,8 @@ public class Main : Node2D
     private IslandSpawner _islandSpawner;
     public override void _Ready()
     {
+        
+
         _islandSpawner = new IslandSpawner();
         AddChild(_islandSpawner);
         _islandSpawner.Connect("SpawnIsland", this, nameof(OnIslandSpawned));
