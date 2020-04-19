@@ -24,6 +24,7 @@ public class Main : Node2D
         AddChild(_islandSpawner);
         _islandSpawner.Connect("SpawnIsland", this, nameof(OnIslandSpawned));
         //GetViewport().DebugDraw =  (DebugDrawEnum)((((int)(GetViewport().DebugDraw) + 1 ) % 2) * 3);
+        GetNode<AudioStreamPlayer2D>("CameraRigidBody/AudioStreamPlayer2D").Play();
     }
 
     public override void _Process(float delta)

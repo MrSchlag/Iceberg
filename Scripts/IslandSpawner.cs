@@ -42,7 +42,7 @@ public class IslandSpawner : Node2D
 
     private void InitIslands()
     {
-        var threshold = 0.81f;
+        var threshold = 0.83f;
         var size = _camera.Value.GetViewport().Size;
         
         size.x *= _camera.Value.Zoom.x;
@@ -66,7 +66,7 @@ public class IslandSpawner : Node2D
 
     private void OnRigidBodyCameraMoved()
     {
-        var threshold = 0.79f;
+        var threshold = 0.81f;
         var size = _camera.Value.GetViewport().Size;
         
         size.x *= _camera.Value.Zoom.x;

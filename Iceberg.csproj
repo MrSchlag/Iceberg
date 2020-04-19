@@ -63,6 +63,7 @@
     <Compile Include="Scripts\IslandGenerator.cs" />
     <Compile Include="Scripts\IslandSpawner.cs" />
     <Compile Include="Scripts\RadianCircleProvider.cs" />
+    <Compile Include="Scripts\StartScreen.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

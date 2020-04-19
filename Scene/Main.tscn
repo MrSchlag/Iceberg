@@ -1,8 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Main.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Camera2D.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/CameraRigidBody.cs" type="Script" id=3]
+[ext_resource path="res://Sounds/LudumDare46.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/LudumDare46SelectSound.wav" type="AudioStream" id=5]
+[ext_resource path="res://Sounds/LudumDare46SelectSound2.wav" type="AudioStream" id=6]
+[ext_resource path="res://Sounds/LudumDare46SelectSound3.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sounds/LudumDare46SelectSound4.wav" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -20,6 +25,26 @@ script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraRigidBody"]
 shape = SubResource( 1 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CameraRigidBody"]
+stream = ExtResource( 4 )
+volume_db = -20.0
+
+[node name="AudioStreamSelect1" type="AudioStreamPlayer2D" parent="CameraRigidBody"]
+stream = ExtResource( 5 )
+volume_db = -10.0
+
+[node name="AudioStreamSelect2" type="AudioStreamPlayer2D" parent="CameraRigidBody"]
+stream = ExtResource( 6 )
+volume_db = -10.0
+
+[node name="AudioStreamSelect3" type="AudioStreamPlayer2D" parent="CameraRigidBody"]
+stream = ExtResource( 7 )
+volume_db = -10.0
+
+[node name="AudioStreamSelect4" type="AudioStreamPlayer2D" parent="CameraRigidBody"]
+stream = ExtResource( 8 )
+volume_db = -10.0
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color( 0.0156863, 0.0941176, 0.164706, 1 )

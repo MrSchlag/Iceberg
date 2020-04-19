@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Island : RigidBody2D
 {
-
+    private Random _rand = new Random();
     Gradient _gradient;
     private CollisionPolygon2D _collisionPolygon;
     private Polygon2D _polygon;
@@ -22,8 +22,8 @@ public class Island : RigidBody2D
         Bounce = 0.05f;
         AngularDamp = 0.5f;
 
-        RemainingTime = (float)new Random().Next(9, 16);
-        RemainingTime = RemainingTime > 10f ? 10f : RemainingTime;
+        RemainingTime = (float)new Random().Next(5, 11);
+        RemainingTime = RemainingTime > 11 ? 8f : RemainingTime;
         _collisionPolygon = new CollisionPolygon2D();
         _polygon = new Polygon2D();
 
@@ -80,7 +80,7 @@ public class Island : RigidBody2D
         GiveBear();
     }
 
-    public const float MaxRemainingTime = 10;
+    public const float MaxRemainingTime = 8;
     public float RemainingTime;
     public bool StartedToSink = false;
     private void SinkProcess(float delta)
@@ -107,6 +107,7 @@ public class Island : RigidBody2D
             var result = spaceState.IntersectRay(GetGlobalMousePosition(), new Vector2(100000000, 100000000));
             if (result.Contains("collider") && result["collider"] == this)
             {
+                GetNode<AudioStreamPlayer2D>("/root/Node2D/CameraRigidBody/AudioStreamSelect" + _rand.Next(1, 5)).Play();
                 GetNode("/root").AddChild(_arrow);
                 _isSelected = true;
             }

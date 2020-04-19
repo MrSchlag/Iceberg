@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/LudumDare46SelectSound.wav-c2a7a933bcf50ca63fc23a32ad0647ae.sample"
+
+[deps]
+
+source_file="res://Sounds/LudumDare46SelectSound.wav"
+dest_files=[ "res://.import/LudumDare46SelectSound.wav-c2a7a933bcf50ca63fc23a32ad0647ae.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
