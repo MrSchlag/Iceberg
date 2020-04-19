@@ -3,6 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+public class IslandPolygon
+{
+    public Vector2 [] Polygon {get; set;}
+    public Vector2 Centroid {get; set;}
+}
+
 public class IslandGenerator
 {
     public IslandGenerator()
@@ -24,7 +30,7 @@ public class IslandGenerator
         return (Node2D)island;
     }
 
-    private Vector2[] GetIslandPolygon(int n, int size)
+    private IslandPolygon GetIslandPolygon(int n, int size)
     {
         var rand = new Random();
 
@@ -73,7 +79,7 @@ public class IslandGenerator
         points = points.Select(i => new Vector2(i.x - centroid.x, i.y - centroid.y)).ToList();
 
         points.ForEach(v => GD.Print(v));
-        return points.ToArray();
+        return new IslandPolygon {Polygon = points.ToArray(), Centroid = centroid};
     }
 
     private static void PoolToVec(Random rand, int n, List<float> pool, float max, float min, List<float> vec)
