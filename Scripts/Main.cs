@@ -10,6 +10,7 @@ public class Main : Node2D
     private List<Island> _allIslands = new List<Island>();
 
     private float _timerScore = 0;
+    private RichTextLabel _scroreLabel;
 
     public Main()
     {
@@ -32,16 +33,20 @@ public class Main : Node2D
         GetNode<AudioStreamPlayer2D>("CameraRigidBody/AudioStreamPlayer2D").Play();
         GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel").Visible = false;
         GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel2").Visible = false;
-        GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel3").Text = string.Empty;
+        GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel4").Visible = false;
+
+        _scroreLabel = GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel3");
+        _scroreLabel.Text = string.Empty;
 
     }
 
     public override void _Process(float delta)
     {
-        GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel3").Text = ((int)_timerScore).ToString() + "°C";
+        _scroreLabel.Text = ((int)_timerScore).ToString() + "°C";
         
         if (EndGame == true)
         {
+            ScoreCounter += delta;
             EndCounter += delta;
             if (EndCounter > 4)
             {
@@ -50,6 +55,11 @@ public class Main : Node2D
                 {
                     GetTree().ChangeScene("res://Scene/StartScreen.tscn");
                 }
+            }
+            if (ScoreCounter > 2)
+            {
+                GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel4").Visible = true;
+                GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel4").Text = _scroreLabel.Text;
             }
         }
         else
@@ -67,6 +77,7 @@ public class Main : Node2D
         _allIslands.Add(newIsland);
     }
 
+    public float ScoreCounter = 0;
     public float EndCounter = 0;
     public bool EndGame = false;
     private void OnEndGame()
@@ -75,5 +86,8 @@ public class Main : Node2D
         _allIslands.ForEach(i => i.ForceSink());
         EndGame = true;
         GetNode<RichTextLabel>("CameraRigidBody/CanvasLayer/RichTextLabel").Visible = true;
+
+
+        _scroreLabel.Visible = false;
     }
 }

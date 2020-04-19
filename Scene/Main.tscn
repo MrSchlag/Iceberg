@@ -92,3 +92,14 @@ text = "29"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="CameraRigidBody/CanvasLayer"]
+margin_left = 481.817
+margin_top = 479.795
+margin_right = 704.817
+margin_bottom = 596.795
+custom_fonts/normal_font = SubResource( 2 )
+text = "10"
+__meta__ = {
+"_edit_use_anchors_": false
+}
